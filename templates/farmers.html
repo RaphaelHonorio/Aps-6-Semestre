@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<title>Ministério da Fazenda - Banco de dados</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <div class="container">
+        <ul class="nav nav-pills nav-fill">
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Bem vindo usuario: {{ username }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Nível de segurança: {{ level }}</a>
+            </li>
+            <li class="nav-item">
+                <form action="/logout" method="post">
+                    <button type="submit" class="btn btn-link navbar-btn navbar-link">
+                        Log off
+                    </button>
+                </form>
+            </li>
+        </ul>
+
+        <br>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Sobrenome</th>
+                    <th>Localização</th>
+                    <th>Categoria</th>
+                    <th>Agrotoxico</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for result in results %}
+                {% if result.category == "3" %}
+                    <tr class="table-danger">
+                        <td>{{ result.firstname }}</td>
+                        <td>{{ result.lastname }}</td>
+                        <td>{{ result.localization }}</td>
+                        <td>{{ result.pesticide }}</td>
+                        <td>{{ "Informação Restrita" }}</td>
+                    </tr>
+                {% elif result.category == "2" %}
+                    <tr class="table-info">
+                        <td>{{ result.firstname }}</td>
+                        <td>{{ result.lastname }}</td>
+                        <td>{{ result.localization }}</td>
+                        <td>{{ result.pesticide }}</td>
+                        <td>{{ "Informação Restrita"}}</td>
+                    </tr>
+                {% else %}
+                    <tr class="table-success">
+                        <td>{{ result.firstname }}</td>
+                        <td>{{ result.lastname }}</td>
+                        <td>{{ result.localization }}</td>
+                        <td>{{ result.level }}</td>
+                        <td>{{ "Não informado" }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<title>Página de Login e Cadastro</title>
+{% endblock %}
+
+{% block body %}
+    <!-- Formulário de Login -->
+    <div class="login-form">
+        <form action="/login" method="post" enctype="multipart/form-data">
+            <h2 class="text-center">Fazer login</h2>
+            <div class="form-group">
+                <output id="show_image_login"></output>
+            </div>
+
+            <div class="form-group">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" name="file" id="file_input_login" required="required" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                    <label class="custom-file-label" for="file_input_login">Escolher digital</label>
+                 </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </div>
+        </form>
+
+
+
+    <!-- Formulário de Cadastro -->
+    <div class="register-form register-section">
+        <form action="/register" method="post" enctype="multipart/form-data">
+            <h2 class="text-center">Cadastrar Usuario</h2>
+    <input type="text" name="firstname" placeholder="Primeiro Nome" required>
+    <input type="text" name="lastname" placeholder="Sobrenome" required>
+    <input type="text" name="localization" placeholder="Localização" required>
+
+    <!-- Campo de nível de acesso -->
+    <select name="level" required>
+        <option value="1">Nível 1</option>
+        <option value="2">Nível 2</option>
+        <option value="3">Nível 3</option>
+    </select>
+
+    <!-- Campo de digital -->
+    <input type="file" name="file" accept=".png, .tif, .gif, .tiff" required>
+            <hr>
+
+    <button type="submit">Cadastrar</button>
+</form>
+    </div>
+    </div>
+
+    <!-- Scripts para visualizar a digital -->
+    <script type="text/javascript">
+        function handleFileSelect(input_id, output_id) {
+            document.getElementById(input_id).addEventListener('change', function(evt) {
+                var files = evt.target.files;
+                var f = files[0];
+                var reader = new FileReader();
+
+                reader.onload = (function(theFile) {
+                    return function(e) {
+                        document.getElementById(output_id).innerHTML = ['<img src="', e.target.result, '" title="', theFile.name, '" class="img-fluid rounded" />'].join('');
+                    };
+                })(f);
+
+                reader.readAsDataURL(f);
+            });
+        }
+
+        handleFileSelect('file_input_login', 'show_image_login');
+        handleFileSelect('file_input_register', 'show_image_register');
+    </script>
+{% endblock %}

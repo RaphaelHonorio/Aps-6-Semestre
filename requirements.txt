@@ -1,0 +1,6 @@
+flask
+flask_sqlalchemy
+numpy
+scikit-image
+opencv-python
+autopep8

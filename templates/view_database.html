@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Base de Dados</title>
+</head>
+<body>
+    <h1>Registros da Base de Dados</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Primeiro Nome</th>
+            <th>Sobrenome</th>
+            <th>Localização</th>
+            <th>Agrotóxico</th>
+            <th>Categoria</th>
+            <th>Impressão Digital</th>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td>{{ record.id }}</td>
+            <td>{{ record.firstname }}</td>
+            <td>{{ record.lastname }}</td>
+            <td>{{ record.localization }}</td>
+            <td>{{ record.pesticide }}</td>
+            <td>{{ record.category }}</td>
+
+             <td>{{ record.fingerprint }}</td>
+
+            <td>
+
+
+
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="{{ url_for('login') }}">Voltar para o Login</a>
+</body>
+</html>
