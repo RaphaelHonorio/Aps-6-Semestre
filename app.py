@@ -15,7 +15,6 @@ def removedot(invertThin):
     temp0 = numpy.array(temp0)
     temp1 = temp0 / 255
     temp2 = numpy.array(temp1)
-    temp3 = numpy.array(temp2)
 
     enhanced_img = numpy.array(temp0)
     filter0 = numpy.zeros((10, 10))
