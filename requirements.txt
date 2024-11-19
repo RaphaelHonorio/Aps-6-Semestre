@@ -4,3 +4,4 @@ numpy
 scikit-image
 opencv-python
 autopep8
+gunicorn
