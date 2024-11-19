@@ -38,9 +38,7 @@ def removedot(invertThin):
             if flag > 3:
                 temp2[i:i + filtersize, j:j +
                       filtersize] = numpy.zeros((filtersize, filtersize))
-
     return temp2
-
 
 def get_descriptors(img):
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
@@ -53,11 +51,9 @@ def get_descriptors(img):
     # Normalize to 0 and 1 range
     img[img == 255] = 1
 
-    # Thinning
     skeleton = skeletonize(img)
     skeleton = numpy.array(skeleton, dtype=numpy.uint8)
     skeleton = removedot(skeleton)
-    # Harris corners
     harris_corners = cv2.cornerHarris(img, 3, 3, 0.04)
     harris_normalized = cv2.normalize(
         harris_corners,
@@ -72,44 +68,34 @@ def get_descriptors(img):
         for y in range(0, harris_normalized.shape[1]):
             if harris_normalized[x][y] > threshold_harris:
                 keypoints.append(cv2.KeyPoint(y, x, 1))
-    # Define descriptor
     orb = cv2.ORB_create()
-    # Compute descriptors
     _, des = orb.compute(img, keypoints)
     return (keypoints, des)
 
 
 def main(image_path,filename):
     des = get_des_input(image_path)
-
     bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
     user = comparisons_with_permitted_images(des, bf,filename)
-
     if user:
         return user
     else:
         return False
 
-
 def comparisons_with_permitted_images(sample_fingerprint, bf, filename):
     score_threshold = 33
-
     for user in users_authorization_and_authentication():
         permitted_fingerprint = get_des_permitted(filename)
         matches = sorted(bf.match(sample_fingerprint, permitted_fingerprint), key=lambda match: match.distance)
-
         print(user["fingerprint"])
-
         score = 0
         for match in matches:
             score += match.distance
-
         actual_score = score / len(matches)
         print(actual_score)
 
         if actual_score < score_threshold:
             return user
-
 
 def get_des_permitted(image_name):
     image_pickle = "database/pickles/" + image_name
@@ -131,11 +117,9 @@ def get_des_permitted(image_name):
 
     return image_desc
 
-
 def get_des_input(image_path):
     print(image_path)
     return get_des(image_path)
-
 
 def get_des(image_path):
     if os.path.exists(image_path):
@@ -149,28 +133,22 @@ def users_authorization_and_authentication():
     # Conectar ao banco de dados
     conn = sqlite3.connect('pesticides.db')
     cursor = conn.cursor()
-
-    # Consultar os dados da tabela farmers
     cursor.execute("SELECT firstname || ' ' || lastname AS name, pesticide, 3  FROM farmers")
     database = []
 
-    # Processar os dados e criar o formato esperado
     for row in cursor.fetchall():
         database.append({
             "name": row[0],
             "fingerprint": row[1],
             "level": int(row[2])
         })
-
     # Fechar a conexão
     conn.close()
 
     return database
-
 
 if __name__ == "__main__":
     try:
         main(sys.argv[1])
     except BaseException:
         raise
-
