@@ -1,7 +1,6 @@
 import numpy as np
 import scipy.ndimage
 
-
 # Codigo responsavel por detectar as minuncias da impressão digital
 def detect_minutiae(binary_img):
     rows, cols = binary_img.shape

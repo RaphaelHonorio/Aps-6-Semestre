@@ -38,7 +38,6 @@ with app.app_context():
 def index():
     return redirect('/login', code=302)
 
-
 @app.route('/login')
 def login():
     username = session.get('name')
@@ -119,7 +118,6 @@ def view_database():
 
     # Enviar os dados para o template view_database.html
     return render_template('view_database.html', records=records)
-
 
 
 # Função para validar se a imagem possui características de uma impressão digital
